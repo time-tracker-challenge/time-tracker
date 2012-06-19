@@ -7,7 +7,7 @@
   <groupId>org.exoplatform.ecms</groupId>
   <artifactId>timetracker</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <name>Juzu Application</name>
 
@@ -108,6 +108,7 @@
           </dependency>
         </dependencies>
         <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
           <attach>true</attach>
         </configuration>
         <executions>
@@ -118,7 +119,6 @@
             </goals>
             <phase>package</phase>
             <configuration>
-              <classifier>gatein</classifier>
               <descriptorRefs>
                 <descriptorRef>gatein</descriptorRef>
               </descriptorRefs>
