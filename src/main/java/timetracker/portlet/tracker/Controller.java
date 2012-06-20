@@ -1,10 +1,10 @@
-package timetracker.portlet.admin;
+package timetracker.portlet.tracker;
 
 import juzu.Path;
 import juzu.View;
 import juzu.template.Template;
-import org.chromattic.api.Chromattic;
 import timetracker.ChromatticService;
+import timetracker.TrackerService;
 
 import javax.inject.Inject;
 import javax.portlet.PortletPreferences;
@@ -24,18 +24,24 @@ public class Controller
   @Inject
   PortletPreferences portletPreferences;
 
+
+  TrackerService trackerService_;
+
   @Inject
-  public Controller(ChromatticService chromatticService)
+  public Controller(ChromatticService chromatticService, TrackerService trackerService)
   {
+    trackerService_ = trackerService;
+    trackerService_.initChromattic(chromatticService.init());
+    trackerService_.createDummyData();
   }
 
     @View
   public void index() throws IOException
   {
-    System.out.println("Time Tracker Admin Application");
+    System.out.println("Time Tracker Application");
     String size = portletPreferences.getValue("size", "1024");
     Map<String, Object> parameters = new HashMap<String, Object>();
-    parameters.put("size", size);
+    parameters.put("size", "Time Tracker Application : "+size);
     indexTemplate.render(parameters);
   }
 

@@ -1,12 +1,17 @@
 package timetracker.model;
 
 
+import org.chromattic.api.annotations.ManyToOne;
 import org.chromattic.api.annotations.Name;
 import org.chromattic.api.annotations.PrimaryType;
 import org.chromattic.api.annotations.Property;
 
+import java.util.List;
+import java.util.Map;
+
 @PrimaryType(name = "tt:task")
-public abstract class Task {
+public abstract class Task
+{
 
   /**
    * Returns the page name.
@@ -15,9 +20,19 @@ public abstract class Task {
   @Name
   public abstract String getName();
 
-  @Property(name = "exo:title")
-  public abstract String getTitle();
+  @ManyToOne
+  public abstract Week getParent();
 
-  public abstract void setTitle(String title);
+  public abstract void setParent(Week week);
+
+  @Property(name = "comment")
+  public abstract String getComment();
+
+  public abstract void setComment(String comment);
+
+  @Property(name="hours")
+  public abstract Integer[] getHours();
+
+  public abstract void setHours(Integer[] hours);
 
 }

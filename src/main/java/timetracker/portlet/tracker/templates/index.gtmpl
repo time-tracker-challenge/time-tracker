@@ -1,0 +1,5 @@
+<div id="timetracker_div"></div>
+
+<script>
+    $('#timetracker_div').html('${size}');
+</script>
