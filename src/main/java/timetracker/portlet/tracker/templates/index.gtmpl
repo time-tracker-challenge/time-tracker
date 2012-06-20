@@ -1,5 +1,44 @@
-<div id="timetracker_div"></div>
+<div class="container">
 
-<script>
-    $('#timetracker_div').html('${size}');
-</script>
+  <legend style="margin-bottom:0px">Employee Name</legend>
+  <table class="table table-striped table-condensed" style="margin-bottom:5px">
+    <thead>
+    <tr>
+      <th>Client</th>
+      <th>Project</th>
+      <th>Task</th>
+      <th class="sep"></th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><select><option>eXo</option></select></td>
+      <td><select><option>Presale</option></select></td>
+      <td><select><option>Weka</option></select></td>
+      <td class="sep"></td>
+      <td>4</td>
+      <td>0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td><select><option>eXo</option></select></td>
+      <td><select><option>Product</option></select></td>
+      <td><select><option>Juzu</option></select></td>
+      <td class="sep"></td>
+      <td>4</td>
+      <td>8</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

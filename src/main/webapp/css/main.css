@@ -1,0 +1,11 @@
+.container {
+  width: 100% !important;
+}
+
+td.sep, th.sep {
+  width: 2px;
+  min-width: 2px;
+  border-left: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+  padding: 0px !important;
+}
