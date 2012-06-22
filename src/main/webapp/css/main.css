@@ -1,5 +1,6 @@
 .container {
   width: 100% !important;
+  background-color: white;
 }
 
 td.sep, th.sep {
@@ -8,4 +9,20 @@ td.sep, th.sep {
   border-left: 1px solid #DDD;
   border-right: 1px solid #DDD;
   padding: 0px !important;
+}
+
+table.table {
+  border-bottom: 1px solid #DDD;
+}
+
+.table .top-align th {
+  vertical-align: top !important;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+input, select {
+  margin-bottom: 0px !important;
 }

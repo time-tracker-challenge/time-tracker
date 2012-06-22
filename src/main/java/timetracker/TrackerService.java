@@ -51,54 +51,69 @@ public class TrackerService {
 
   public void createDummyData()
   {
-    ChromatticSession session = chromattic_.openSession();
-    try
+    //allMondays();
+    String username = Util.getPortalRequestContext().getRemoteUser();
+    if (username!=null)
     {
-      NTFolder users = session.findByPath(NTFolder.class, "users");
-
-      String username = Util.getPortalRequestContext().getRemoteUser();
-      User user = session.findByPath(User.class, "users/"+username);
-      if (user!=null)
+      ChromatticSession session = chromattic_.openSession();
+      try
       {
-        session.remove(user);
+        NTFolder users = session.findByPath(NTFolder.class, "users");
+        User user = session.findByPath(User.class, "users/"+username);
+        if (user!=null)
+        {
+          session.remove(user);
+          session.save();
+        }
+        System.out.println("CREATING USER DATA FOR : "+username);
+        user = session.insert(User.class, username);
+        users.addChild(user);
+        user.setUsername(username);
+
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String name = df.format(c.getTime());
+
+
+        Week week1 = session.create(Week.class, name);
+        week1.setParent(user);
+        week1.setFirstDay(c.getTime());
+
+        Task task = session.create(Task.class, "eXo-Presales-Weka");
+        task.setParent(week1);
+        task.setComment("working on a poc");
+
+        Integer[] hours = new Integer[] {4, 0, 0, 4, 2};
+        task.setHours(hours);
+
+        Task task2 = session.create(Task.class, "eXo-Product-Juzu");
+        task2.setParent(week1);
+        task2.setComment("time tracker portlet");
+
+        hours = new Integer[] {4, 8, 8, 4, 6};
+        task2.setHours(hours);
+
         session.save();
       }
-      System.out.println("CREATING USER DATA FOR : "+username);
-      user = session.insert(User.class, username);
-      users.addChild(user);
-      user.setUsername(username);
-
-      Calendar c = Calendar.getInstance();
-      c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-      String name = df.format(c.getTime());
-
-      Week week1 = session.create(Week.class, name);
-      week1.setParent(user);
-      week1.setFirstDay(c.getTime());
-
-      Task task = session.create(Task.class, "eXo-Presales-Weka");
-      task.setParent(week1);
-      task.setComment("working on a poc");
-
-      Integer[] hours = new Integer[] {4, 0, 0, 0, 0};
-      task.setHours(hours);
-
-      Task task2 = session.create(Task.class, "eXo-Product-Juzu");
-      task2.setParent(week1);
-      task2.setComment("time tracker portlet");
-
-      hours = new Integer[] {4, 8, 8, 0, 0};
-      task2.setHours(hours);
-
-      session.save();
-
+      finally
+      {
+        session.close();
+      }
     }
-    finally
+
+  }
+
+  private void allMondays() {
+    Calendar c = Calendar.getInstance();
+    c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+    for (int i=1 ; i<52 ; i++)
     {
-      session.close();
+      System.out.println( df.format(c.getTime()) );
+      c.add(Calendar.DATE, -7);
     }
-
 
   }
 }

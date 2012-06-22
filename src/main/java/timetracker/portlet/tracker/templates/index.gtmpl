@@ -1,44 +1,100 @@
 <div class="container">
 
-  <legend style="margin-bottom:0px">Employee Name</legend>
+
+<form>
   <table class="table table-striped table-condensed" style="margin-bottom:5px">
     <thead>
     <tr>
+      <th colspan="4">
+        <h3>Benjamin Paillereau</h3>
+      </th>
+      <th colspan="2">
+        <a class="btn" href="#"><i class="icon-backward"></i></a>
+        <input type="text" class="input-small" placeholder="dd/mm/yyyy" value="01/06/2012" data-date-format="dd/mm/yyyy" id="dp1" style="margin-bottom: 3px;">
+        <a class="btn" href="#"><i class="icon-forward"></i></a>
+      </th>
+      <th colspan="3">
+        <a href="#">(Prefill from last week)</a>
+      </th>
+    </tr>
+    <tr class="top-align">
       <th>Client</th>
       <th>Project</th>
       <th>Task</th>
       <th class="sep"></th>
-      <th>Monday</th>
+      <th>
+        Monday<br/>
+        18/06
+      </th>
       <th>Tuesday</th>
       <th>Wednesday</th>
       <th>Thursday</th>
       <th>Friday</th>
     </tr>
     </thead>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <a class="btn" href="#"><i class="icon-plus"></i> Add New Task</a>
+          <a class="btn" href="#" style="float:right"><i class="icon-ok"></i> Save and Update</a>
+        </td>
+        <td><span class="badge badge-success">8</span></td>
+        <td><span class="badge badge-success">8</span></td>
+        <td><span class="badge badge-success">8</span></td>
+        <td><span class="badge badge-warning">0</span></td>
+        <td><span class="badge badge-warning">0</span></td>
+      </tr>
+    </tfoot>
     <tbody>
     <tr>
-      <td><select><option>eXo</option></select></td>
-      <td><select><option>Presale</option></select></td>
-      <td><select><option>Weka</option></select></td>
+      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
       <td class="sep"></td>
-      <td>4</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
     </tr>
     <tr>
-      <td><select><option>eXo</option></select></td>
-      <td><select><option>Product</option></select></td>
-      <td><select><option>Juzu</option></select></td>
+      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i></a></td>
       <td class="sep"></td>
-      <td>4</td>
-      <td>8</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="8"/></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
     </tr>
     </tbody>
   </table>
 
+</form>
+
 </div>
+
+<script>
+$(function(){
+  console.log('inside block');
+  $('#dp1').datepicker();
+
+  $(".taclient").typeahead(
+    { "source": ["eXo", "CG95", "SPFF", "M6"]
+    }
+  );
+
+  $(".taproject").typeahead(
+    { "source": ["Presales", "Product"]
+    }
+  );
+
+  $(".tatask").typeahead(
+    { "source": ["POC", "Juzu", "Demo", "Office"]
+    }
+  );
+
+  console.log('dp configured');
+});
+</script>
