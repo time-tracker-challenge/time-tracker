@@ -1,5 +1,4 @@
-<div class="container">
-
+<div class="container" id="time-tracker">
 
 <form>
   <table class="table table-striped table-condensed" style="margin-bottom:5px">
@@ -9,9 +8,9 @@
         <h3>${username}</h3>
       </th>
       <th colspan="2">
-        <a class="btn" href="#"><i class="icon-backward"></i></a>
+        <a class="btn" href="#" id="previous-button"><i class="icon-backward"></i></a>
         <input type="text" class="input-small" placeholder="dd/mm/yyyy" value="${now}" data-date-format="dd/mm/yyyy" id="dp1" style="margin-bottom: 3px;">
-        <a class="btn" href="#"><i class="icon-forward"></i></a>
+        <a class="btn" href="#" id="next-button"><i class="icon-forward"></i></a>
       </th>
       <th colspan="3">
         <a href="#" id="prefill-button" style="float:right">(Prefill from last week)</a>
@@ -46,6 +45,17 @@
       </tr>
     </tfoot>
     <tbody id="tasks-body">
+      <tr>
+        <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
+        <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
+        <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
+        <td class="sep"></td>
+        <td><input class="input-mini" type="text" value="0"/></td>
+        <td><input class="input-mini" type="text" value="0"/></td>
+        <td><input class="input-mini" type="text" value="0"/></td>
+        <td><input class="input-mini" type="text" value="0"/></td>
+        <td><input class="input-mini" type="text" value="0"/></td>
+      </tr>
     </tbody>
   </table>
 
@@ -80,9 +90,23 @@ $(document).ready(function(){
 
   $('#prefill-button').on("click", function() {
     $('#tasks-body').load("@{getTasks()}", {"from": "${monday}", "diff": "-1"}, function () {
-
     });
+  });
 
+  $('#previous-button').on("click", function() {
+    $('#time-tracker').load("@{refreshAll()}", {"from": "${monday}", "diff": "-1"}, function () {
+    });
+  });
+
+  $('#next-button').on("click", function() {
+    $('#time-tracker').load("@{refreshAll()}", {"from": "${monday}", "diff": "1"}, function () {
+    });
+  });
+
+  $('#dp1').datepicker().on('changeDate', function(ev){
+    $('.datepicker').css("display", "none");
+    $('#time-tracker').load("@{refreshAll()}", {"from": $('#dp1').val()}, function () {
+    });
   });
 
   console.log('dp configured');

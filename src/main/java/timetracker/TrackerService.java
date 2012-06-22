@@ -68,7 +68,10 @@ public class TrackerService {
         String path = "users/"+username+"/"+df.format(fromDate.getTime());
         System.out.println("path::"+path);
         Week week = session.findByPath(Week.class, path);
-        return week.getTasks();
+        if (week!=null)
+        {
+          return week.getTasks();
+        }
       }
       finally
       {

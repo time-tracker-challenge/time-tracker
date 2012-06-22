@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.portlet.PortletPreferences;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class Controller
   {
     trackerService_ = trackerService;
     trackerService_.initChromattic(chromatticService.init());
-    trackerService_.createDummyData();
+    //trackerService_.createDummyData();
   }
 
   @View
@@ -63,17 +64,43 @@ public class Controller
   }
 
   @Resource
-  public void getTasks(String from, String diff) throws Exception
+  public void refreshAll(String from, String diff) throws Exception
   {
+    System.out.println("refreshAll :: "+from);
+
+    Calendar cal=Calendar.getInstance();
+    SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
+    Date d1=df.parse(from);
+    cal.setTime(d1);
+    if (diff!=null)
+    {
+      Integer di = new Integer(diff);
+      cal.add(Calendar.DATE, 7*di);
+    }
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("username", Util.getPortalRequestContext().getRemoteUser());
+
+    parameters.put("now", df.format(cal.getTime()));
+    cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    df = new SimpleDateFormat("dd/MM/yyyy");
+    parameters.put("monday", df.format(cal.getTime()));
+    parameters.put("columns", trackerService_.getColumns());
+
+    indexTemplate.render(parameters);
+  }
+
+  @Resource
+  public void getTasks(String from, String diff) throws ParseException {
     System.out.println("getTasks :: "+from);
 
     Calendar cal=Calendar.getInstance();
     SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
     Date d1=df.parse(from);
     cal.setTime(d1);
-    if ("-1".equals(diff))
+    if (diff!=null)
     {
-      cal.add(Calendar.DATE, -7);
+      Integer di = new Integer(diff);
+      cal.add(Calendar.DATE, 7*di);
     }
     List<Task> tasks = trackerService_.getTasks(cal);
     Map<String, Object> parameters = new HashMap<String, Object>();
