@@ -14,7 +14,7 @@
         <a class="btn" href="#"><i class="icon-forward"></i></a>
       </th>
       <th colspan="3">
-        <a href="#">(Prefill from last week)</a>
+        <a href="#" style="float:right">(Prefill from last week)</a>
       </th>
     </tr>
     <tr class="top-align">
@@ -35,8 +35,8 @@
     <tfoot>
       <tr>
         <td colspan="4">
-          <a class="btn" href="#"><i class="icon-plus"></i> Add New Task</a>
-          <a class="btn" href="#" style="float:right"><i class="icon-ok"></i> Save and Update</a>
+          <a class="btn" href="#"><i class="icon-plus"></i> Add new Task</a>
+          <a class="btn btn-primary" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
         </td>
         <td><span class="badge badge-success">8</span></td>
         <td><span class="badge badge-success">8</span></td>
