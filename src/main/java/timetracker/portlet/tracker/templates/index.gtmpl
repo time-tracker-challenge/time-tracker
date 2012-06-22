@@ -14,7 +14,7 @@
         <a class="btn" href="#"><i class="icon-forward"></i></a>
       </th>
       <th colspan="3">
-        <a href="#" style="float:right">(Prefill from last week)</a>
+        <a href="#" id="prefill-button" style="float:right">(Prefill from last week)</a>
       </th>
     </tr>
     <tr class="top-align">
@@ -57,25 +57,33 @@
 $(document).ready(function(){
   console.log('inside block');
 
-  $('#tasks-body').load("@{getTasks()}", function () {
+  $('#tasks-body').load("@{getTasks()}", {"from": "${monday}"}, function () {
+
+    $('#dp1').datepicker();
+
+    $(".taclient").typeahead(
+      { "source": ["eXo", "CG95", "SPFF", "M6"]
+      }
+    );
+
+    $(".taproject").typeahead(
+      { "source": ["Presales", "Product"]
+      }
+    );
+
+    $(".tatask").typeahead(
+      { "source": ["POC", "Juzu", "Demo", "Office"]
+      }
+    );
+
   });
 
-  $('#dp1').datepicker();
+  $('#prefill-button').on("click", function() {
+    $('#tasks-body').load("@{getTasks()}", {"from": "${monday}", "diff": "-1"}, function () {
 
-  $(".taclient").typeahead(
-    { "source": ["eXo", "CG95", "SPFF", "M6"]
-    }
-  );
+    });
 
-  $(".taproject").typeahead(
-    { "source": ["Presales", "Product"]
-    }
-  );
-
-  $(".tatask").typeahead(
-    { "source": ["POC", "Juzu", "Demo", "Office"]
-    }
-  );
+  });
 
   console.log('dp configured');
 });

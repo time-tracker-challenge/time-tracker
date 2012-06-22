@@ -1,33 +1,13 @@
+<% tasks.each { task -> %>
     <tr>
-      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
-      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
-      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
+      <td><input class="taclient input-small" type="text" data-provide="typeahead" value="${task.columns[0]}"/></td>
+      <td><input class="taproject input-small" type="text" data-provide="typeahead" value="${task.columns[1]}"/></td>
+      <td><input class="tatask input-small" type="text" data-provide="typeahead" value="${task.columns[2]}"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
       <td class="sep"></td>
-      <td><input class="input-mini" type="text" value="4"/></td>
-      <td><input class="input-mini" type="text" value="0"/></td>
-      <td><input class="input-mini" type="text" value="4"/></td>
-      <td><input class="input-mini" type="text" value="0"/></td>
-      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="${task.hours[0]}"/></td>
+      <td><input class="input-mini" type="text" value="${task.hours[1]}"/></td>
+      <td><input class="input-mini" type="text" value="${task.hours[2]}"/></td>
+      <td><input class="input-mini" type="text" value="${task.hours[3]}"/></td>
+      <td><input class="input-mini" type="text" value="${task.hours[4]}"/></td>
     </tr>
-    <tr>
-      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
-      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
-      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i></a></td>
-      <td class="sep"></td>
-      <td><input class="input-mini" type="text" value="4"/></td>
-      <td><input class="input-mini" type="text" value="8"/></td>
-      <td><input class="input-mini" type="text" value="4"/></td>
-      <td><input class="input-mini" type="text" value="0"/></td>
-      <td><input class="input-mini" type="text" value="0"/></td>
-    </tr>
-    <tr>
-      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
-      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
-      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i></a></td>
-      <td class="sep"></td>
-      <td><input class="input-mini" type="text" value="4"/></td>
-      <td><input class="input-mini" type="text" value="8"/></td>
-      <td><input class="input-mini" type="text" value="4"/></td>
-      <td><input class="input-mini" type="text" value="0"/></td>
-      <td><input class="input-mini" type="text" value="0"/></td>
-    </tr>
+<% } %>

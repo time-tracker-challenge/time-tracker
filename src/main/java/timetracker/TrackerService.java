@@ -11,6 +11,7 @@ import timetracker.model.Week;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class TrackerService {
 
@@ -55,6 +56,29 @@ public class TrackerService {
     return new String[] {"Client", "Project", "Task"};
   }
 
+  public List<Task> getTasks(Calendar fromDate)
+  {
+    String username = Util.getPortalRequestContext().getRemoteUser();
+    if (username!=null)
+    {
+      ChromatticSession session = chromattic_.openSession();
+      try
+      {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String path = "users/"+username+"/"+df.format(fromDate.getTime());
+        System.out.println("path::"+path);
+        Week week = session.findByPath(Week.class, path);
+        return week.getTasks();
+      }
+      finally
+      {
+        session.close();
+      }
+    }
+
+    return null;
+  }
+
 
   public void createDummyData()
   {
@@ -80,7 +104,7 @@ public class TrackerService {
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-        for (int i=1 ; i<2 ; i++)
+        for (int i=1 ; i<=3 ; i++)
         {
           String name = df.format(c.getTime());
 

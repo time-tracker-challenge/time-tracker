@@ -7,15 +7,14 @@ import juzu.template.Template;
 import org.exoplatform.portal.webui.util.Util;
 import timetracker.ChromatticService;
 import timetracker.TrackerService;
+import timetracker.model.Task;
 
 import javax.inject.Inject;
 import javax.portlet.PortletPreferences;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /** @author <a href="mailto:benjamin.paillereau@exoplatform.com">Benjamin Paillereau</a> */
 public class Controller
@@ -55,7 +54,7 @@ public class Controller
     DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     parameters.put("now", df.format(c.getTime()));
     c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-    df = new SimpleDateFormat("dd/MM");
+    df = new SimpleDateFormat("dd/MM/yyyy");
     parameters.put("monday", df.format(c.getTime()));
     parameters.put("columns", trackerService_.getColumns());
 
@@ -64,10 +63,23 @@ public class Controller
   }
 
   @Resource
-  public void getTasks()
+  public void getTasks(String from, String diff) throws Exception
   {
-    System.out.println("getTasks");
-    tasksTemplate.render();
+    System.out.println("getTasks :: "+from);
+
+    Calendar cal=Calendar.getInstance();
+    SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
+    Date d1=df.parse(from);
+    cal.setTime(d1);
+    if ("-1".equals(diff))
+    {
+      cal.add(Calendar.DATE, -7);
+    }
+    List<Task> tasks = trackerService_.getTasks(cal);
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("tasks", tasks);
+
+    tasksTemplate.render(parameters);
   }
 
 }
