@@ -1,0 +1,33 @@
+    <tr>
+      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
+      <td class="sep"></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+    </tr>
+    <tr>
+      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i></a></td>
+      <td class="sep"></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="8"/></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+    </tr>
+    <tr>
+      <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
+      <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i></a></td>
+      <td class="sep"></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="8"/></td>
+      <td><input class="input-mini" type="text" value="4"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+      <td><input class="input-mini" type="text" value="0"/></td>
+    </tr>

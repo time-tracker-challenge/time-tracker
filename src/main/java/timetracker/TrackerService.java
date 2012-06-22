@@ -49,9 +49,15 @@ public class TrackerService {
 
   }
 
+
+  public String[] getColumns()
+  {
+    return new String[] {"Client", "Project", "Task"};
+  }
+
+
   public void createDummyData()
   {
-    //allMondays();
     String username = Util.getPortalRequestContext().getRemoteUser();
     if (username!=null)
     {
@@ -73,26 +79,46 @@ public class TrackerService {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String name = df.format(c.getTime());
 
+        for (int i=1 ; i<2 ; i++)
+        {
+          String name = df.format(c.getTime());
 
-        Week week1 = session.create(Week.class, name);
-        week1.setParent(user);
-        week1.setFirstDay(c.getTime());
+          Week week1 = session.create(Week.class, name);
+          week1.setParent(user);
+          week1.setFirstDay(c.getTime());
 
-        Task task = session.create(Task.class, "eXo-Presales-Weka");
-        task.setParent(week1);
-        task.setComment("working on a poc");
+          if (i%2!=0)
+          {
+            Task task = session.create(Task.class, "eXo-Presales-Weka");
+            task.setParent(week1);
+            task.setComment("working on a poc");
+            task.setHours(new Integer[] {4, 0, 0, 4, 2});
+            task.setColumns(new String[]{"eXo", "Presales", "Weka"});
+          }
 
-        Integer[] hours = new Integer[] {4, 0, 0, 4, 2};
-        task.setHours(hours);
+          if (i%3!=0)
+          {
+            Task task2 = session.create(Task.class, "eXo-Product-Juzu");
+            task2.setParent(week1);
+            task2.setComment("time tracker portlet");
+            task2.setHours(new Integer[] {4, 8, 8, 4, 6});
+            task2.setColumns(new String[]{"eXo", "Product", "Juzu"});
+          }
 
-        Task task2 = session.create(Task.class, "eXo-Product-Juzu");
-        task2.setParent(week1);
-        task2.setComment("time tracker portlet");
+          if (i%5!=0)
+          {
+            Task task3 = session.create(Task.class, "eXo-Product-Spec");
+            task3.setParent(week1);
+            task3.setComment("In Place Editing");
+            task3.setHours(new Integer[] {2, 2, 0, 6, 6});
+            task3.setColumns(new String[]{"eXo", "Product", "Spec"});
+          }
 
-        hours = new Integer[] {4, 8, 8, 4, 6};
-        task2.setHours(hours);
+          //removing one week
+          c.add(Calendar.DATE, -7);
+
+        }
 
         session.save();
       }
@@ -104,16 +130,7 @@ public class TrackerService {
 
   }
 
-  private void allMondays() {
-    Calendar c = Calendar.getInstance();
-    c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-    for (int i=1 ; i<52 ; i++)
-    {
-      System.out.println( df.format(c.getTime()) );
-      c.add(Calendar.DATE, -7);
-    }
 
-  }
+
 }

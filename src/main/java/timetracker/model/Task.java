@@ -35,4 +35,8 @@ public abstract class Task
 
   public abstract void setHours(Integer[] hours);
 
+  @Property(name="columns")
+  public abstract String[] getColumns();
+
+  public abstract void setColumns(String[] columns);
 }
