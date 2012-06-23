@@ -34,7 +34,7 @@
     <tfoot>
       <tr>
         <td colspan="4">
-          <a class="btn" href="#"><i class="icon-plus"></i> Add new Task</a>
+          <a class="btn" href="#" id="new-task-button"><i class="icon-plus"></i> Add new Task</a>
           <a class="btn btn-primary" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
         </td>
         <td><span class="badge badge-success">8</span></td>
@@ -63,33 +63,64 @@
 
 </div>
 
+<script id="tracker-empty-row" type="text">
+      <tr>
+        <td><input class="taclient input-small tacolumns" type="text" data-provide="typeahead"/></td>
+        <td><input class="taproject input-small tacolumns" type="text" data-provide="typeahead"/></td>
+        <td><input class="tatask input-small tacolumns" type="text" data-provide="typeahead"/><a class="btn btn-danger remove-button" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
+        <td class="sep"></td>
+        <td><input class="input-mini tahours" type="text" value="0"/></td>
+        <td><input class="input-mini tahours" type="text" value="0"/></td>
+        <td><input class="input-mini tahours" type="text" value="0"/></td>
+        <td><input class="input-mini tahours" type="text" value="0"/></td>
+        <td><input class="input-mini tahours" type="text" value="0"/></td>
+      </tr>
+</script>
+
 <script>
+
+var initEvents = function() {
+  console.log('init events');
+  $('.remove-button').on('click', function() {
+    var tr = $(this).parent().parent();
+    if (tr.parent().children().length>1) {
+      tr.remove();
+    } else {
+      tr.children('td').children('input.tacolumns').val('');
+      tr.children('td').children('input.tahours').val('0');
+    }
+  });
+
+  $(".taclient").typeahead(
+    { "source": ["eXo", "CG95", "SPFF", "M6"]
+    }
+  );
+
+  $(".taproject").typeahead(
+    { "source": ["Presales", "Product"]
+    }
+  );
+
+  $(".tatask").typeahead(
+    { "source": ["POC", "Juzu", "Demo", "Office"]
+    }
+  );
+
+};
+
+
 $(document).ready(function(){
   console.log('inside block');
 
+  $('#dp1').datepicker();
+
   $('#tasks-body').load("@{getTasks()}", {"from": "${monday}"}, function () {
-
-    $('#dp1').datepicker();
-
-    $(".taclient").typeahead(
-      { "source": ["eXo", "CG95", "SPFF", "M6"]
-      }
-    );
-
-    $(".taproject").typeahead(
-      { "source": ["Presales", "Product"]
-      }
-    );
-
-    $(".tatask").typeahead(
-      { "source": ["POC", "Juzu", "Demo", "Office"]
-      }
-    );
-
+    initEvents();
   });
 
   $('#prefill-button').on("click", function() {
     $('#tasks-body').load("@{getTasks()}", {"from": "${monday}", "diff": "-1"}, function () {
+      initEvents();
     });
   });
 
@@ -107,6 +138,12 @@ $(document).ready(function(){
     $('.datepicker').css("display", "none");
     $('#time-tracker').load("@{refreshAll()}", {"from": $('#dp1').val()}, function () {
     });
+  });
+
+  $('#new-task-button').on("click", function() {
+    console.log("new task button clicked");
+    $( $('#tracker-empty-row').html() ).appendTo( $('#tasks-body') );
+    initEvents();
   });
 
   console.log('dp configured');

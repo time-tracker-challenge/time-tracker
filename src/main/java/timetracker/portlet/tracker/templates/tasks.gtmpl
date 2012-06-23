@@ -12,24 +12,6 @@
         <td><input class="input-mini tahours" type="text" value="${task.hours[4]}"/></td>
       </tr>
   <% } %>
-
-<script>
-
-  $('.remove-button').on('click', function() {
-    var tr = $(this).parent().parent();
-    if (tr.parent().children().length>1)
-    {
-      tr.remove();
-    }
-    else
-    {
-      tr.children('td').children('input.tacolumns').val('');
-      tr.children('td').children('input.tahours').val('0');
-    }
-  });
-
-</script>
-
 <% } else { %>
       <tr>
         <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
