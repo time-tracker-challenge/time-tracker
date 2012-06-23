@@ -1,5 +1,6 @@
 package timetracker.portlet.tracker;
 
+import juzu.Action;
 import juzu.Path;
 import juzu.Resource;
 import juzu.View;
@@ -41,7 +42,7 @@ public class Controller
   {
     trackerService_ = trackerService;
     trackerService_.initChromattic(chromatticService.init());
-    //trackerService_.createDummyData();
+//    trackerService_.createDummyData();
   }
 
   @View
@@ -107,6 +108,18 @@ public class Controller
     parameters.put("tasks", tasks);
 
     tasksTemplate.render(parameters);
+  }
+
+  @Action
+  public void updateData(String from, String data) throws ParseException
+  {
+    Calendar cal=Calendar.getInstance();
+    SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
+    Date d1=df.parse(from);
+    cal.setTime(d1);
+
+    trackerService_.updateData(cal, data);
+
   }
 
 }

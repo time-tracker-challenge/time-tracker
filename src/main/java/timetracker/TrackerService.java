@@ -82,6 +82,62 @@ public class TrackerService {
     return null;
   }
 
+  public void updateData(Calendar fromDate, String data)
+  {
+    fromDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+    String username = Util.getPortalRequestContext().getRemoteUser();
+    if (username!=null)
+    {
+      ChromatticSession session = chromattic_.openSession();
+      try
+      {
+        NTFolder users = session.findByPath(NTFolder.class, "users");
+        User user = session.findByPath(User.class, "users/"+username);
+        if (user==null)
+        {
+          user = session.insert(User.class, username);
+          users.addChild(user);
+          user.setUsername(username);
+        }
+
+        String weekName = df.format(fromDate.getTime());
+        Week week = session.findByPath(Week.class, "users/"+username+"/"+weekName);
+        if (week!=null)
+        {
+          week.setParent(null);
+        }
+
+        week = session.insert(Week.class, weekName);
+        week.setParent(user);
+        week.setFirstDay(fromDate.getTime());
+
+
+        String[] rows = data.split(";");
+        for (int ir=0 ; ir<rows.length ; ir++)
+        {
+          String[] entries = rows[ir].split("=");
+          String[] columns = entries[0].split("-");
+          String[] hours = entries[1].split("-");
+          String taskName = columns[0]+"-"+columns[1]+"-"+columns[2];
+          Task task = session.create(Task.class, taskName);
+          task.setParent(week);
+          task.setComment("");
+          task.setHours(hours);
+          task.setColumns(columns);
+        }
+
+        session.save();
+
+      }
+      finally
+      {
+        session.close();
+      }
+    }
+  }
+
 
   public void createDummyData()
   {
@@ -120,7 +176,7 @@ public class TrackerService {
             Task task = session.create(Task.class, "eXo-Presales-Weka");
             task.setParent(week1);
             task.setComment("working on a poc");
-            task.setHours(new Integer[] {4, 0, 0, 4, 2});
+            task.setHours(new String[] {"4", "0", "0", "4", "2"});
             task.setColumns(new String[]{"eXo", "Presales", "Weka"});
           }
 
@@ -129,7 +185,7 @@ public class TrackerService {
             Task task2 = session.create(Task.class, "eXo-Product-Juzu");
             task2.setParent(week1);
             task2.setComment("time tracker portlet");
-            task2.setHours(new Integer[] {4, 8, 8, 4, 6});
+            task2.setHours(new String[] {"4", "8", "8", "4", "6"});
             task2.setColumns(new String[]{"eXo", "Product", "Juzu"});
           }
 
@@ -138,7 +194,7 @@ public class TrackerService {
             Task task3 = session.create(Task.class, "eXo-Product-Spec");
             task3.setParent(week1);
             task3.setComment("In Place Editing");
-            task3.setHours(new Integer[] {2, 2, 0, 6, 6});
+            task3.setHours(new String[] {"2", "2", "0", "6", "6"});
             task3.setColumns(new String[]{"eXo", "Product", "Spec"});
           }
 

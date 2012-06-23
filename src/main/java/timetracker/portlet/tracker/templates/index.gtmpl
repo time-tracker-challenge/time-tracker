@@ -34,7 +34,7 @@
       <tr>
         <td colspan="4">
           <a class="btn" href="#" id="new-task-button"><i class="icon-plus"></i> Add new Task</a>
-          <a class="btn btn-primary" id="save-button" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
+          <a class="btn btn-primary disabled" id="save-button" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
         </td>
         <td><span class="badge tat1">-</span></td>
         <td><span class="badge tat2">-</span></td>
@@ -90,6 +90,7 @@ var initEvents = function() {
       tr.children('td').children('input.tahours').val('0');
     }
     updateTotals();
+    $('#save-button').removeClass('disabled');
   });
 
   $(".taclient").typeahead(
@@ -133,6 +134,7 @@ var initEvents = function() {
 
   $('.tahours').change(function(){
     updateTotals();
+    $('#save-button').removeClass('disabled');
   });
 
   updateTotals();
@@ -153,6 +155,7 @@ $(document).ready(function(){
   $('#prefill-button').on("click", function() {
     $('#tasks-body').load("@{getTasks()}", {"from": "${monday}", "diff": "-1"}, function () {
       initEvents();
+      $('#save-button').removeClass('disabled');
     });
   });
 
@@ -179,10 +182,33 @@ $(document).ready(function(){
   });
 
   $('#save-button').on('click', function() {
-    $('.tah1').each(function() {
-      console.log("H::"+ $(this).val() );
+    if (!$(this).hasClass('disabled')) {
+
+      var rows = "";
+
+      $('#tasks-body').find('tr').each(function() {
+        var name="", hours="";
+        $(this).find('.tacolumns').each(function() {
+          name += $(this).val() + "-";
+        });
+
+        $(this).find('.tahours').each(function() {
+          hours += $(this).val() + "-";
+        });
+
+        console.log("FORM :: "+name+" = "+hours);
+        rows += name+"="+hours+";";
+
+      });
+
+    $('#save-button').addClass('disabled');
+
+    $.post("@{updateData()}", {"data": rows, "from": "${monday}"}, function() {
+      console.log("data posted");
     });
 
+
+    }
   });
 
   console.log('dp configured');

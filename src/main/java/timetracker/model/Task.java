@@ -31,9 +31,9 @@ public abstract class Task
   public abstract void setComment(String comment);
 
   @Property(name="hours")
-  public abstract Integer[] getHours();
+  public abstract String[] getHours();
 
-  public abstract void setHours(Integer[] hours);
+  public abstract void setHours(String[] hours);
 
   @Property(name="columns")
   public abstract String[] getColumns();
