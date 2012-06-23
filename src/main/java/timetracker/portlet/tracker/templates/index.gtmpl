@@ -1,6 +1,5 @@
 <div class="container" id="time-tracker">
 
-<form>
   <table class="table table-striped table-condensed" style="margin-bottom:5px">
     <thead>
     <tr>
@@ -35,15 +34,16 @@
       <tr>
         <td colspan="4">
           <a class="btn" href="#" id="new-task-button"><i class="icon-plus"></i> Add new Task</a>
-          <a class="btn btn-primary" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
+          <a class="btn btn-primary" id="save-button" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
         </td>
-        <td><span class="badge badge-success">8</span></td>
-        <td><span class="badge badge-success">8</span></td>
-        <td><span class="badge badge-success">8</span></td>
-        <td><span class="badge badge-warning">0</span></td>
-        <td><span class="badge badge-warning">0</span></td>
+        <td><span class="badge tat1">-</span></td>
+        <td><span class="badge tat2">-</span></td>
+        <td><span class="badge tat3">-</span></td>
+        <td><span class="badge tat4">-</span></td>
+        <td><span class="badge tat5">-</span></td>
       </tr>
     </tfoot>
+    <form id="tracker-form">
     <tbody id="tasks-body">
       <tr>
         <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
@@ -57,9 +57,9 @@
         <td><input class="input-mini" type="text" value="0"/></td>
       </tr>
     </tbody>
+    </form>
   </table>
 
-</form>
 
 </div>
 
@@ -69,11 +69,11 @@
         <td><input class="taproject input-small tacolumns" type="text" data-provide="typeahead"/></td>
         <td><input class="tatask input-small tacolumns" type="text" data-provide="typeahead"/><a class="btn btn-danger remove-button" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
         <td class="sep"></td>
-        <td><input class="input-mini tahours" type="text" value="0"/></td>
-        <td><input class="input-mini tahours" type="text" value="0"/></td>
-        <td><input class="input-mini tahours" type="text" value="0"/></td>
-        <td><input class="input-mini tahours" type="text" value="0"/></td>
-        <td><input class="input-mini tahours" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah1" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah2" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah3" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah4" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah5" type="text" value="0"/></td>
       </tr>
 </script>
 
@@ -82,13 +82,14 @@
 var initEvents = function() {
   console.log('init events');
   $('.remove-button').on('click', function() {
-    var tr = $(this).parent().parent();
-    if (tr.parent().children().length>1) {
+    var tr = $(this).closest('tr');
+    if (tr.parent().children('tr').length>1) {
       tr.remove();
     } else {
       tr.children('td').children('input.tacolumns').val('');
       tr.children('td').children('input.tahours').val('0');
     }
+    updateTotals();
   });
 
   $(".taclient").typeahead(
@@ -105,6 +106,37 @@ var initEvents = function() {
     { "source": ["POC", "Juzu", "Demo", "Office"]
     }
   );
+
+  var updateTotals = function() {
+    for (var c=1 ; c<=5 ; c++) {
+      var total=0;
+      $('.tah'+c).each(function() {
+        var val = $(this).val();
+        if (isNaN(val) || val === undefined) {
+            return;
+        }
+        var val = parseInt(val);
+        total += val;
+      });
+      $('.tat'+c).html(total).attr('class', function() {
+          $(this).removeClass('badge-success badge-warning badge-info');
+          if (total<8)
+            $(this).addClass('badge-warning');
+          else if (total==8)
+            $(this).addClass('badge-success');
+          else if (total>8)
+            $(this).addClass('badge-info');
+        }
+      );
+    }
+  }
+
+  $('.tahours').change(function(){
+    updateTotals();
+  });
+
+  updateTotals();
+
 
 };
 
@@ -144,6 +176,13 @@ $(document).ready(function(){
     console.log("new task button clicked");
     $( $('#tracker-empty-row').html() ).appendTo( $('#tasks-body') );
     initEvents();
+  });
+
+  $('#save-button').on('click', function() {
+    $('.tah1').each(function() {
+      console.log("H::"+ $(this).val() );
+    });
+
   });
 
   console.log('dp configured');

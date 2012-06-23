@@ -5,23 +5,23 @@
         <td><input class="taproject input-small tacolumns" type="text" data-provide="typeahead" value="${task.columns[1]}"/></td>
         <td><input class="tatask input-small tacolumns" type="text" data-provide="typeahead" value="${task.columns[2]}"/><a class="btn btn-danger remove-button" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
         <td class="sep"></td>
-        <td><input class="input-mini tahours" type="text" value="${task.hours[0]}"/></td>
-        <td><input class="input-mini tahours" type="text" value="${task.hours[1]}"/></td>
-        <td><input class="input-mini tahours" type="text" value="${task.hours[2]}"/></td>
-        <td><input class="input-mini tahours" type="text" value="${task.hours[3]}"/></td>
-        <td><input class="input-mini tahours" type="text" value="${task.hours[4]}"/></td>
+        <td><input class="input-mini tahours tah1" type="text" value="${task.hours[0]}"/></td>
+        <td><input class="input-mini tahours tah2" type="text" value="${task.hours[1]}"/></td>
+        <td><input class="input-mini tahours tah3" type="text" value="${task.hours[2]}"/></td>
+        <td><input class="input-mini tahours tah4" type="text" value="${task.hours[3]}"/></td>
+        <td><input class="input-mini tahours tah5" type="text" value="${task.hours[4]}"/></td>
       </tr>
   <% } %>
 <% } else { %>
       <tr>
-        <td><input class="taclient input-small" type="text" data-provide="typeahead"/></td>
-        <td><input class="taproject input-small" type="text" data-provide="typeahead"/></td>
-        <td><input class="tatask input-small" type="text" data-provide="typeahead"/><a class="btn btn-danger" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
+        <td><input class="taclient input-small tacolumns" type="text" data-provide="typeahead"/></td>
+        <td><input class="taproject input-small tacolumns" type="text" data-provide="typeahead"/></td>
+        <td><input class="tatask input-small tacolumns" type="text" data-provide="typeahead"/><a class="btn btn-danger remove-button" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
         <td class="sep"></td>
-        <td><input class="input-mini" type="text" value="0"/></td>
-        <td><input class="input-mini" type="text" value="0"/></td>
-        <td><input class="input-mini" type="text" value="0"/></td>
-        <td><input class="input-mini" type="text" value="0"/></td>
-        <td><input class="input-mini" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah1" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah2" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah3" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah4" type="text" value="0"/></td>
+        <td><input class="input-mini tahours tah5" type="text" value="0"/></td>
       </tr>
 <% } %>
