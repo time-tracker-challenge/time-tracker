@@ -66,7 +66,6 @@ public class TrackerService {
     {
       session.close();
     }
-    //return new String[] {"Client", "Project", "Task"};
   }
 
   public List<Task> getTasks(Calendar fromDate)
