@@ -4,9 +4,7 @@ import org.chromattic.api.Chromattic;
 import org.chromattic.api.ChromatticSession;
 import org.chromattic.ext.ntdef.NTFolder;
 import org.exoplatform.portal.webui.util.Util;
-import timetracker.model.Task;
-import timetracker.model.User;
-import timetracker.model.Week;
+import timetracker.model.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,12 +33,14 @@ public class TrackerService {
         session.save();
       }
 
-      NTFolder columns = session.findByPath(NTFolder.class, "columns");
+/*
+      Columns columns = session.findByPath(Columns.class, "columns");
       if (columns==null)
       {
-        columns = session.insert(NTFolder.class, "columns");
+        columns = session.insert(Columns.class, "columns");
         session.save();
       }
+*/
 
     }
     finally
@@ -51,9 +51,22 @@ public class TrackerService {
   }
 
 
-  public String[] getColumns()
+  public List<Column> getColumns()
   {
-    return new String[] {"Client", "Project", "Task"};
+    ChromatticSession session = chromattic_.openSession();
+    try
+    {
+
+      Columns columns = session.findByPath(Columns.class, "columns");
+      List<Column> cols = columns.getChildren();
+      return cols;
+
+    }
+    finally
+    {
+      session.close();
+    }
+    //return new String[] {"Client", "Project", "Task"};
   }
 
   public List<Task> getTasks(Calendar fromDate)
@@ -147,6 +160,30 @@ public class TrackerService {
       ChromatticSession session = chromattic_.openSession();
       try
       {
+        Columns columns = session.findByPath(Columns.class, "columns");
+        if (columns!=null)
+        {
+          session.remove(columns);
+          session.save();
+        }
+        columns = session.insert(Columns.class, "columns");
+        session.save();
+
+        Column column = session.create(Column.class, "client");
+        column.setParent(columns);
+        column.setTitle("Client");
+        column.setValues(new String[] {"eXo", "CG95", "SPFF", "M6"} );
+
+        column = session.create(Column.class, "project");
+        column.setParent(columns);
+        column.setTitle("Project");
+        column.setValues(new String[] {"Presales", "Product"} );
+
+        column = session.create(Column.class, "task");
+        column.setParent(columns);
+        column.setTitle("Task");
+        column.setValues(new String[] {"POC", "Juzu", "Demo", "Office"} );
+
         NTFolder users = session.findByPath(NTFolder.class, "users");
         User user = session.findByPath(User.class, "users/"+username);
         if (user!=null)

@@ -16,9 +16,9 @@
       </th>
     </tr>
     <tr class="top-align">
-      <th>${columns[0]}</th>
-      <th>${columns[1]}</th>
-      <th>${columns[2]}</th>
+      <th>${columns.get(0).title}</th>
+      <th>${columns.get(1).title}</th>
+      <th>${columns.get(2).title}</th>
       <th class="sep"></th>
       <th>
         Monday<br/>
@@ -93,20 +93,11 @@ var initEvents = function() {
     $('#save-button').removeClass('disabled');
   });
 
-  $(".taclient").typeahead(
-    { "source": ["eXo", "CG95", "SPFF", "M6"]
-    }
-  );
-
-  $(".taproject").typeahead(
-    { "source": ["Presales", "Product"]
-    }
-  );
-
-  $(".tatask").typeahead(
-    { "source": ["POC", "Juzu", "Demo", "Office"]
-    }
-  );
+  $.getJSON('@{getColumns()}', function(data) {
+    $(".taclient").typeahead( data.sources[0] );
+    $(".taproject").typeahead( data.sources[1] );
+    $(".tatask").typeahead( data.sources[2] );
+  });
 
   var updateTotals = function() {
     for (var c=1 ; c<=5 ; c++) {

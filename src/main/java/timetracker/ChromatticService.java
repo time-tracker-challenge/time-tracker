@@ -7,8 +7,7 @@ import org.exoplatform.services.jcr.core.nodetype.ExtendedNodeTypeManager;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.jcr.impl.core.ExtendedNamespaceRegistry;
 import timetracker.integration.CurrentRepositoryLifeCycle;
-import timetracker.model.Task;
-import timetracker.model.User;
+import timetracker.model.*;
 
 import javax.inject.Inject;
 import javax.jcr.Session;
@@ -34,6 +33,9 @@ public class ChromatticService {
     ChromatticBuilder builder = ChromatticBuilder.create();
     builder.add(Task.class);
     builder.add(User.class);
+    builder.add(Week.class);
+    builder.add(Column.class);
+    builder.add(Columns.class);
 
     builder.setOptionValue(ChromatticBuilder.SESSION_LIFECYCLE_CLASSNAME, CurrentRepositoryLifeCycle.class.getName());
     builder.setOptionValue(ChromatticBuilder.CREATE_ROOT_NODE, true);

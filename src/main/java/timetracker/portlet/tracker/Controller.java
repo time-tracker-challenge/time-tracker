@@ -32,6 +32,10 @@ public class Controller
   Template tasksTemplate;
 
   @Inject
+  @Path("columns.gtmpl")
+  Template columnsTemplate;
+
+  @Inject
   PortletPreferences portletPreferences;
 
 
@@ -42,7 +46,7 @@ public class Controller
   {
     trackerService_ = trackerService;
     trackerService_.initChromattic(chromatticService.init());
-//    trackerService_.createDummyData();
+    trackerService_.createDummyData();
   }
 
   @View
@@ -108,6 +112,12 @@ public class Controller
     parameters.put("tasks", tasks);
 
     tasksTemplate.render(parameters);
+  }
+
+  @Resource
+  public void getColumns()
+  {
+    columnsTemplate.render();
   }
 
   @Action
