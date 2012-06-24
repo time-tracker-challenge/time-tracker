@@ -16,9 +16,9 @@
       </th>
     </tr>
     <tr class="top-align">
-      <th>${columns.get(0).title}</th>
-      <th>${columns.get(1).title}</th>
-      <th>${columns.get(2).title}</th>
+    <% columns.each { column -> %>
+      <th>${column.title}</th>
+    <% } %>
       <th class="sep"></th>
       <th>
         Monday<br/>
@@ -93,9 +93,27 @@ var initEvents = function() {
     $('#save-button').removeClass('disabled');
   });
 
+  $(".taclient").typeahead(
+    { "source": [
+    <% def col1 = columns.get(0);
+      col1.values.each { value -> %>
+    "${value}" ,
+    <% } %>
+    ""] }
+  );
+
+  $(".taproject").typeahead(
+    { "source": [
+    <% col1 = columns.get(1);
+      col1.values.each { value -> %>
+    "${value}" ,
+    <% } %>
+    ""] }
+  );
+
   $.getJSON('@{getColumns()}', function(data) {
-    $(".taclient").typeahead( data.sources[0] );
-    $(".taproject").typeahead( data.sources[1] );
+    //$(".taclient").typeahead( data.sources[0] );
+    //$(".taproject").typeahead( data.sources[1] );
     $(".tatask").typeahead( data.sources[2] );
   });
 
