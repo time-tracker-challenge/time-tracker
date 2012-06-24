@@ -33,14 +33,12 @@ public class TrackerService {
         session.save();
       }
 
-/*
       Columns columns = session.findByPath(Columns.class, "columns");
       if (columns==null)
       {
         columns = session.insert(Columns.class, "columns");
         session.save();
       }
-*/
 
     }
     finally
@@ -160,13 +158,9 @@ public class TrackerService {
       try
       {
         Columns columns = session.findByPath(Columns.class, "columns");
-        if (columns!=null)
-        {
-          session.remove(columns);
-          session.save();
+        for (Column column : columns.getChildren()) {
+          column.setParent(null);
         }
-        columns = session.insert(Columns.class, "columns");
-        session.save();
 
         Column column = session.create(Column.class, "client");
         column.setParent(columns);

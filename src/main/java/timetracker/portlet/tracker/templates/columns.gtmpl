@@ -1,6 +1,0 @@
-{ "sources" : [
-    { "source": ["eXo", "CG95", "SPFF", "M6"] } ,
-    { "source": ["Presales", "Product"] },
-    { "source": ["POC", "Juzu", "Demo", "Office"] }
-               ]
-}
