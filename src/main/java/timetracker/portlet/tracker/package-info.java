@@ -1,5 +1,8 @@
 @Bindings(
-        @Binding(value = org.exoplatform.services.jcr.RepositoryService.class, implementation=GateInMetaProvider.class)
+        value = {
+          @Binding(value = org.exoplatform.services.jcr.RepositoryService.class, implementation=GateInMetaProvider.class),
+          @Binding(value = org.exoplatform.services.organization.OrganizationService.class, implementation=GateInMetaProvider.class)
+        }
 )
 
 @Assets(

@@ -1,11 +1,11 @@
 package timetracker.portlet.tracker;
 
-import juzu.Action;
-import juzu.Path;
-import juzu.Resource;
-import juzu.View;
+import juzu.*;
 import juzu.template.Template;
 import org.exoplatform.portal.webui.util.Util;
+import org.exoplatform.services.organization.OrganizationService;
+import org.exoplatform.services.organization.User;
+import org.exoplatform.services.organization.UserHandler;
 import timetracker.ChromatticService;
 import timetracker.TrackerService;
 import timetracker.model.Task;
@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /** @author <a href="mailto:benjamin.paillereau@exoplatform.com">Benjamin Paillereau</a> */
+@SessionScoped
 public class Controller
 {
 
@@ -34,16 +35,36 @@ public class Controller
   @Inject
   PortletPreferences portletPreferences;
 
-
   TrackerService trackerService_;
 
+  String userFullname = "";
+
   @Inject
-  public Controller(ChromatticService chromatticService, TrackerService trackerService)
+  public Controller(ChromatticService chromatticService, TrackerService trackerService, OrganizationService organizationService)
   {
     System.out.println("Tracker Portlet Init");
     trackerService_ = trackerService;
     trackerService_.initChromattic(chromatticService.init());
+    setUserFullname(organizationService);
     //trackerService_.createDummyData();
+  }
+
+  private void setUserFullname(OrganizationService organizationService)
+  {
+    try
+    {
+      String username = Util.getPortalRequestContext().getRemoteUser();
+      if (username!=null)
+      {
+        UserHandler userHandler = organizationService.getUserHandler();
+        User user = userHandler.findUserByName(username);
+        userFullname = user.getFullName();
+      }
+    }
+    catch (Exception e)
+    {
+    }
+
   }
 
   @View
@@ -52,6 +73,7 @@ public class Controller
     String size = portletPreferences.getValue("size", "1024");
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("username", Util.getPortalRequestContext().getRemoteUser());
+    parameters.put("fullname", userFullname);
 
     Calendar c = Calendar.getInstance();
     DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -81,6 +103,7 @@ public class Controller
     }
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("username", Util.getPortalRequestContext().getRemoteUser());
+    parameters.put("fullname", userFullname);
 
     parameters.put("now", df.format(cal.getTime()));
     cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);

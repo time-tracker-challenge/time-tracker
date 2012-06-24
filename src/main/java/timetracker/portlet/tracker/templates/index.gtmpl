@@ -4,7 +4,7 @@
     <thead>
     <tr>
       <th colspan="5">
-        <h3 style="float:left">${username}</h3>
+        <h3 style="float:left">${fullname}</h3>
         <span class="alert alert-success" style="float:right;margin-bottom:0px;padding:4px 30px 3px 30px;" id="loading-panel">Loading your tasks ...</span>
       </th>
       <th colspan="3">
@@ -107,9 +107,11 @@ var updateTotals = function() {
 };
 
 var clearWhileLoading = function() {
+/*
   $("#loading-panel").css("display", "inline");
   $('#tasks-body').html( $('#tracker-empty-row').html() );
   updateTotals();
+*/
 }
 
 var initEvents = function() {
