@@ -1,5 +1,6 @@
 package timetracker.portlet.admin;
 
+import juzu.Action;
 import juzu.Path;
 import juzu.SessionScoped;
 import juzu.View;
@@ -11,6 +12,10 @@ import timetracker.TrackerService;
 import javax.inject.Inject;
 import javax.portlet.PortletPreferences;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +42,16 @@ public class Controller
   public void index() throws IOException
   {
     Map<String, Object> parameters = new HashMap<String, Object>();
+
+    parameters.put("columns", trackerService_.getColumns());
+
     indexTemplate.render(parameters);
+  }
+
+  @Action
+  public void updateData(String data) throws ParseException
+  {
+    trackerService_.updateColumns(data);
   }
 
 }

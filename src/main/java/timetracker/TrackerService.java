@@ -147,6 +147,39 @@ public class TrackerService {
     }
   }
 
+  public void updateColumns(String data)
+  {
+    ChromatticSession session = chromattic_.openSession();
+    try
+    {
+      Columns columns = session.findByPath(Columns.class, "columns");
+      for (Column column : columns.getChildren()) {
+        column.setParent(null);
+      }
+
+      String[] rows = data.split(";");
+      for (int ir=0 ; ir<rows.length ; ir++)
+      {
+        String[] entries = rows[ir].split("=");
+        String name = entries[0];
+        String strim =  entries[1].replaceAll(" ", "");
+        String[] values = strim.split(",");
+        Column column = session.create(Column.class, name);
+        column.setParent(columns);
+        column.setTitle(name);
+        column.setValues(values);
+      }
+
+      session.save();
+
+    }
+    finally
+    {
+      session.close();
+    }
+
+  }
+
 
   public void createDummyData()
   {
