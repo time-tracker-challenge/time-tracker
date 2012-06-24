@@ -1,5 +1,54 @@
-<div id="timetracker_div"></div>
+<div class="container" id="time-tracker-admin">
+
+  <table class="table table-striped table-condensed" style="margin-bottom:5px">
+    <thead>
+    <tr>
+      <th colspan="2">
+        <h3 style="float:left">Time Tracker Admin</h3>
+      </th>
+    </tr>
+    <tr class="top-align">
+      <th>Name</th>
+      <th>Values</th>
+    </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <td colspan="2">
+          <span id="tt-error-panel">
+            <strong>Missing fields : Not Saved !</strong>
+          </span>
+          <span id="tt-success-panel">
+            <strong>Columns saved !</strong>
+          </span>
+          <span id="tt-save-panel">
+            <a class="btn" href="#" id="new-column-button"><i class="icon-plus"></i> Add new Column</a>
+            <a class="btn btn-primary disabled" id="save-button" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
+          </span>
+        </td>
+      </tr>
+    </tfoot>
+    <form id="tracker-form">
+    <tbody id="tasks-body">
+      <tr>
+        <td><h4>Client</h4></td>
+        <td><textarea class="input-xlarge" id="textarea" rows="3"></textarea></td>
+      </tr>
+      <tr>
+        <td><h4>Project</h4></td>
+        <td><textarea class="input-xlarge" id="textarea" rows="3"></textarea></td>
+      </tr>
+      <tr>
+        <td><h4>Task</h4></td>
+        <td><textarea class="input-xlarge" id="textarea" rows="3"></textarea></td>
+      </tr>
+    </tbody>
+    </form>
+  </table>
+
+</div>
 
 <script>
-    $('#timetracker_div').html('${size}');
+  $("#tt-error-panel").css("display", "none");
+  $("#tt-success-panel").css("display", "none");
 </script>
