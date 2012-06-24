@@ -82,6 +82,56 @@
 </script>
 
 <script>
+var ttmonday = "${monday}";
+
+var fillTypeahead = function() {
+  <% def icol=0 ;
+  columns.each { column -> %>
+
+  $(".tac${icol++}").typeahead(
+    { "source": [
+    <% column.values.each { value -> %>
+    "${value}" ,
+    <% } %>
+    ""] }
+  );
+
+  <% } %>
+
+}
+var jzTimeTrackerGetTasks = "@{getTasks()}";
+var jzTimeTrackerRefreshAll = "@{refreshAll()}";
+var jzTimeTrackerUpdateData = "@{updateData()}";
+
+
+var initEvents = function() {
+  console.log('init events');
+  $('.remove-button').on('click', function() {
+    var tr = $(this).closest('tr');
+    if (tr.parent().children('tr').length>1) {
+      tr.remove();
+    } else {
+      tr.children('td').children('input.tacolumns').val('');
+      tr.children('td').children('input.tahours').val('0');
+    }
+    updateTotals();
+    $('#save-button').removeClass('disabled');
+  });
+
+  fillTypeahead();
+
+  $('.tahours').change(function(){
+    updateTotals();
+    $('#save-button').removeClass('disabled');
+  });
+
+  updateTotals();
+
+  $("#loading-panel").css("display", "none");
+
+};
+
+
 var updateTotals = function() {
   for (var c=1 ; c<=5 ; c++) {
     var total=0;
@@ -106,87 +156,37 @@ var updateTotals = function() {
   }
 };
 
-var clearWhileLoading = function() {
-/*
-  $("#loading-panel").css("display", "inline");
-  $('#tasks-body').html( $('#tracker-empty-row').html() );
-  updateTotals();
-*/
-}
-
-var initEvents = function() {
-  console.log('init events');
-  $('.remove-button').on('click', function() {
-    var tr = $(this).closest('tr');
-    if (tr.parent().children('tr').length>1) {
-      tr.remove();
-    } else {
-      tr.children('td').children('input.tacolumns').val('');
-      tr.children('td').children('input.tahours').val('0');
-    }
-    updateTotals();
-    $('#save-button').removeClass('disabled');
-  });
-
-  <% def icol=0 ;
-  columns.each { column -> %>
-
-  $(".tac${icol++}").typeahead(
-    { "source": [
-    <% column.values.each { value -> %>
-    "${value}" ,
-    <% } %>
-    ""] }
-  );
-
-  <% } %>
-
-
-  $('.tahours').change(function(){
-    updateTotals();
-    $('#save-button').removeClass('disabled');
-  });
-
-  updateTotals();
-
-  $("#loading-panel").css("display", "none");
-
-};
-
 
 $(document).ready(function(){
   console.log('inside block');
 
   $('#dp1').datepicker();
 
-  $('#tasks-body').load("@{getTasks()}", {"from": "${monday}"}, function () {
+  $('#tasks-body').load(jzTimeTrackerGetTasks, {"from": ttmonday}, function () {
     initEvents();
   });
 
   $('#prefill-button').on("click", function() {
-    clearWhileLoading();
-    $('#tasks-body').load("@{getTasks()}", {"from": "${monday}", "diff": "-1"}, function () {
+    console.log(ttmonday);
+    $('#tasks-body').load(jzTimeTrackerGetTasks, {"from": ttmonday, "diff": "-1"}, function () {
       initEvents();
       $('#save-button').removeClass('disabled');
     });
   });
 
   $('#previous-button').on("click", function() {
-    clearWhileLoading();
-    $('#time-tracker').load("@{refreshAll()}", {"from": "${monday}", "diff": "-1"}, function () {
+    $('#time-tracker').load(jzTimeTrackerRefreshAll, {"from": ttmonday, "diff": "-1"}, function () {
     });
   });
 
   $('#next-button').on("click", function() {
-    clearWhileLoading();
-    $('#time-tracker').load("@{refreshAll()}", {"from": "${monday}", "diff": "1"}, function () {
+    $('#time-tracker').load(jzTimeTrackerRefreshAll, {"from": ttmonday, "diff": "1"}, function () {
     });
   });
 
   $('#dp1').datepicker().on('changeDate', function(ev){
-    clearWhileLoading();
     $('.datepicker').css("display", "none");
-    $('#time-tracker').load("@{refreshAll()}", {"from": $('#dp1').val()}, function () {
+    $('#time-tracker').load(jzTimeTrackerRefreshAll, {"from": $('#dp1').val()}, function () {
     });
   });
 
@@ -218,7 +218,7 @@ $(document).ready(function(){
 
     $('#save-button').addClass('disabled');
 
-    $.post("@{updateData()}", {"data": rows, "from": "${monday}"}, function() {
+    $.post(jzTimeTrackerUpdateData, {"data": rows, "from": ttmonday}, function() {
       console.log("data posted");
     });
 
@@ -228,4 +228,5 @@ $(document).ready(function(){
 
   console.log('dp configured');
 });
+
 </script>
