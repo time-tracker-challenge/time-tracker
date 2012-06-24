@@ -76,7 +76,6 @@ public class TrackerService {
       {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String path = "users/"+username+"/"+df.format(fromDate.getTime());
-        System.out.println("path::"+path);
         Week week = session.findByPath(Week.class, path);
         if (week!=null)
         {

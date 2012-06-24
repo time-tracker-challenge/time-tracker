@@ -42,7 +42,6 @@ public class Controller
   @Inject
   public Controller(ChromatticService chromatticService, TrackerService trackerService, OrganizationService organizationService)
   {
-    System.out.println("Tracker Portlet Init");
     trackerService_ = trackerService;
     trackerService_.initChromattic(chromatticService.init());
     setUserFullname(organizationService);
@@ -90,8 +89,6 @@ public class Controller
   @Resource
   public void refreshAll(String from, String diff) throws Exception
   {
-    System.out.println("refreshAll :: "+from);
-
     Calendar cal=Calendar.getInstance();
     SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
     Date d1=df.parse(from);
@@ -116,8 +113,6 @@ public class Controller
 
   @Resource
   public void getTasks(String from, String diff) throws ParseException {
-    System.out.println("getTasks :: "+from);
-
     Calendar cal=Calendar.getInstance();
     SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
     Date d1=df.parse(from);

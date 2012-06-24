@@ -34,9 +34,17 @@
     </thead>
     <tfoot>
       <tr>
-        <td colspan="5">
-          <a class="btn" href="#" id="new-task-button"><i class="icon-plus"></i> Add new Task</a>
-          <a class="btn btn-primary disabled" id="save-button" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
+        <td colspan="5" width="400px">
+          <span id="tt-error-panel">
+            <strong>Missing fields : Not Saved !</strong>
+          </span>
+          <span id="tt-success-panel">
+            <strong>Tasks saved !</strong>
+          </span>
+          <span id="tt-save-panel">
+            <a class="btn" href="#" id="new-task-button"><i class="icon-plus"></i> Add new Task</a>
+            <a class="btn btn-primary disabled" id="save-button" href="#" style="float:right"><i class="icon-ok icon-white"></i> Save</a>
+          </span>
         </td>
         <td><span class="badge tat1 badge-warning">0</span></td>
         <td><span class="badge tat2 badge-warning">0</span></td>
@@ -63,8 +71,8 @@
     </form>
   </table>
 
-
 </div>
+
 
 <script id="tracker-empty-row" type="text">
       <tr>
@@ -103,6 +111,8 @@ var jzTimeTrackerGetTasks = "@{getTasks()}";
 var jzTimeTrackerRefreshAll = "@{refreshAll()}";
 var jzTimeTrackerUpdateData = "@{updateData()}";
 
+$("#tt-error-panel").css("display", "none");
+$("#tt-success-panel").css("display", "none");
 
 var initEvents = function() {
   console.log('init events');
@@ -131,6 +141,11 @@ var initEvents = function() {
 
 };
 
+var clearWhileLoading = function() {
+  $("#loading-panel").css("display", "inline");
+  $('#tasks-body').html( $('#tracker-empty-row').html() );
+  updateTotals();
+}
 
 var updateTotals = function() {
   for (var c=1 ; c<=5 ; c++) {
@@ -167,7 +182,7 @@ $(document).ready(function(){
   });
 
   $('#prefill-button').on("click", function() {
-    console.log(ttmonday);
+    clearWhileLoading();
     $('#tasks-body').load(jzTimeTrackerGetTasks, {"from": ttmonday, "diff": "-1"}, function () {
       initEvents();
       $('#save-button').removeClass('disabled');
@@ -175,16 +190,19 @@ $(document).ready(function(){
   });
 
   $('#previous-button').on("click", function() {
+    clearWhileLoading();
     $('#time-tracker').load(jzTimeTrackerRefreshAll, {"from": ttmonday, "diff": "-1"}, function () {
     });
   });
 
   $('#next-button').on("click", function() {
+    clearWhileLoading();
     $('#time-tracker').load(jzTimeTrackerRefreshAll, {"from": ttmonday, "diff": "1"}, function () {
     });
   });
 
   $('#dp1').datepicker().on('changeDate', function(ev){
+    clearWhileLoading();
     $('.datepicker').css("display", "none");
     $('#time-tracker').load(jzTimeTrackerRefreshAll, {"from": $('#dp1').val()}, function () {
     });
@@ -200,14 +218,23 @@ $(document).ready(function(){
     if (!$(this).hasClass('disabled')) {
 
       var rows = "";
+      var ok = 1;
 
       $('#tasks-body').find('tr').each(function() {
         var name="", hours="";
         $(this).find('.tacolumns').each(function() {
+          var val = $(this).val();
+          if (val==="" || val === undefined) {
+            ok = 0;
+          }
           name += $(this).val() + "-";
         });
 
         $(this).find('.tahours').each(function() {
+          var val = $(this).val();
+          if (isNaN(val) || val==="" || val === undefined) {
+            ok = 0;
+          }
           hours += $(this).val() + "-";
         });
 
@@ -216,12 +243,27 @@ $(document).ready(function(){
 
       });
 
-    $('#save-button').addClass('disabled');
+      if (ok===1) {
+        $('#save-button').addClass('disabled');
 
-    $.post(jzTimeTrackerUpdateData, {"data": rows, "from": ttmonday}, function() {
-      console.log("data posted");
-    });
-
+        $.post(jzTimeTrackerUpdateData, {"data": rows, "from": ttmonday}, function() {
+          console.log("data posted");
+          $("#tt-save-panel").css("display", "none");
+          $("#tt-success-panel").css("display", "inline-block");
+          $.doTimeout(2000,function() {
+            $("#tt-success-panel").css("display", "none");
+            $("#tt-save-panel").css("display", "inline");
+          });
+        });
+      } else {
+        console.log("data error");
+        $("#tt-save-panel").css("display", "none");
+        $("#tt-error-panel").css("display", "inline-block");
+        $.doTimeout(2000,function() {
+          $("#tt-error-panel").css("display", "none");
+          $("#tt-save-panel").css("display", "inline");
+        });
+      }
 
     }
   });
