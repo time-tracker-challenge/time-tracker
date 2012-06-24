@@ -32,7 +32,7 @@
     <% columns.each { column -> %>
       <tr>
         <td>
-          <h4><input class="input-medium col-name" type="text" value="${column.title}"/></h4>
+          <h4><input class="input-small col-name" type="text" value="${column.title}"/></h4>
         </td>
         <td>
           <textarea class="input-xlarge col-value" id="textarea" rows="3"><% for (int ic=0 ; ic<column.values.length ; ic++ ) {
