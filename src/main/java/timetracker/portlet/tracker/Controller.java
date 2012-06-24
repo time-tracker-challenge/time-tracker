@@ -40,6 +40,7 @@ public class Controller
   @Inject
   public Controller(ChromatticService chromatticService, TrackerService trackerService)
   {
+    System.out.println("Tracker Portlet Init");
     trackerService_ = trackerService;
     trackerService_.initChromattic(chromatticService.init());
     //trackerService_.createDummyData();

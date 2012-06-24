@@ -4,12 +4,12 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.exoplatform.ecms</groupId>
+  <groupId>org.juzu</groupId>
   <artifactId>timetracker</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Juzu Application</name>
+  <name>Time Tracker Application</name>
 
   <properties>
     <maven.compiler.target>1.5</maven.compiler.target>
@@ -22,12 +22,12 @@
     <dependency>
       <groupId>org.juzu</groupId>
       <artifactId>juzu-builder</artifactId>
-      <version>0.5-SNAPSHOT</version>
+      <version>0.5.0</version>
     </dependency>
     <dependency>
       <groupId>org.juzu</groupId>
       <artifactId>juzu-plugins-portlet</artifactId>
-      <version>0.5-SNAPSHOT</version>
+      <version>0.5.0</version>
     </dependency>
 
 
@@ -104,7 +104,7 @@
           <dependency>
             <groupId>org.juzu</groupId>
             <artifactId>juzu-builder</artifactId>
-            <version>0.5-SNAPSHOT</version>
+            <version>0.5.0</version>
           </dependency>
         </dependencies>
         <configuration>
