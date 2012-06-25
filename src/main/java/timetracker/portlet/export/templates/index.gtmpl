@@ -15,27 +15,27 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          <span id="tt-admin-error-panel">
+          <span id="tt-error-panel">
             <strong>Missing fields : Not Saved !</strong>
           </span>
-          <span id="tt-admin-success-panel">
+          <span id="tt-success-panel">
             <strong>Columns saved !</strong>
           </span>
-          <span id="tt-admin-save-panel">
-            <a class="btn btn-primary" id="admin-save-button" href="#"><i class="icon-ok icon-white"></i> Save</a>
+          <span id="tt-save-panel">
+            <a class="btn btn-primary" id="save-button" href="#"><i class="icon-ok icon-white"></i> Save</a>
           </span>
         </td>
       </tr>
     </tfoot>
-    <form id="admin-tracker-form">
-    <tbody id="admin-columns-body">
+    <form id="tracker-form">
+    <tbody id="columns-body">
     <% columns.each { column -> %>
       <tr>
         <td>
           <h4><input class="input-small col-name" type="text" value="${column.title}"/></h4>
         </td>
         <td>
-          <textarea class="input-xlarge col-value" rows="3"><% for (int ic=0 ; ic<column.values.length ; ic++ ) {
+          <textarea class="input-xlarge col-value" id="textarea" rows="3"><% for (int ic=0 ; ic<column.values.length ; ic++ ) {
             if (ic>0) { %> , <% } %>${column.values[ic]}<% } %></textarea>
           </td>
       </tr>
@@ -47,18 +47,18 @@
 </div>
 
 <script>
-  $("#tt-admin-error-panel").css("display", "none");
-  $("#tt-admin-success-panel").css("display", "none");
+  $("#tt-error-panel").css("display", "none");
+  $("#tt-success-panel").css("display", "none");
 
   var jzTimeTrackerAdminUpdateData = "@{updateData()}";
 
-  $('#admin-save-button').on('click', function() {
+  $('#save-button').on('click', function() {
     if (!$(this).hasClass('disabled')) {
 
       var rows = "";
       var ok = 1;
 
-      $('#admin-columns-body').find('tr').each(function() {
+      $('#columns-body').find('tr').each(function() {
         var name="", values="";
         $(this).find('.col-name').each(function() {
           var val = $(this).val();
@@ -83,20 +83,20 @@
       if (ok===1) {
         $.post(jzTimeTrackerAdminUpdateData, {"data": rows}, function() {
           console.log("data posted");
-          $("#tt-admin-save-panel").css("display", "none");
-          $("#tt-admin-success-panel").css("display", "inline-block");
+          $("#tt-save-panel").css("display", "none");
+          $("#tt-success-panel").css("display", "inline-block");
           $.doTimeout(2000,function() {
-            $("#tt-admin-success-panel").css("display", "none");
-            $("#tt-admin-save-panel").css("display", "inline");
+            $("#tt-success-panel").css("display", "none");
+            $("#tt-save-panel").css("display", "inline");
           });
         });
       } else {
         console.log("data error");
-        $("#tt-admin-save-panel").css("display", "none");
-        $("#tt-admin-error-panel").css("display", "inline-block");
+        $("#tt-save-panel").css("display", "none");
+        $("#tt-error-panel").css("display", "inline-block");
         $.doTimeout(2000,function() {
-          $("#tt-admin-error-panel").css("display", "none");
-          $("#tt-admin-save-panel").css("display", "inline");
+          $("#tt-error-panel").css("display", "none");
+          $("#tt-save-panel").css("display", "inline");
         });
       }
     }
