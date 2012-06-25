@@ -3,7 +3,7 @@
       <tr>
       <% def ic=0;
         task.columns.each { column-> %>
-        <td><input class="tac${ic++} input-small tacolumns" type="text" data-provide="typeahead" value="${column}"/></td>
+        <td><input class="tac${ic++} input-medium tacolumns" type="text" data-provide="typeahead" value="${column}"/></td>
       <% } %>
         <td><a class="btn btn-danger remove-button" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
         <td class="sep"></td>
@@ -17,7 +17,7 @@
 <% } else { %>
       <tr>
       <% for (int ic=0 ; ic<nbColumns ; ic++ ) { %>
-        <td><input class="tac${ic} input-small tacolumns" type="text" data-provide="typeahead"/></td>
+        <td><input class="tac${ic} input-medium tacolumns" type="text" data-provide="typeahead"/></td>
       <% } %>
         <td><a class="btn btn-danger remove-button" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
         <td class="sep"></td>
