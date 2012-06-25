@@ -4,34 +4,9 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd
    http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
-   <portlet>
-     <portlet-name>TimetrackerAdminApplication</portlet-name>
-     <display-name xml:lang="EN">Time tracker Admin Application</display-name>
-     <portlet-class>timetracker.portlet.admin.AdminPortlet</portlet-class>
-     <init-param>
-       <name>juzu.run_mode</name>
-       <value>prod</value>
-     </init-param>
-     <supports>
-       <mime-type>text/html</mime-type>
-     </supports>
-     <portlet-info>
-       <title>Time tracker Admin</title>
-       <short-title>Time tracker Admin</short-title>
-       <keywords>Content</keywords>
-     </portlet-info>
-     <portlet-preferences>
-       <preference>
-         <name>size</name>
-         <value>128</value>
-         <read-only>false</read-only>
-       </preference>
-     </portlet-preferences>
-   </portlet>
-
   <portlet>
     <portlet-name>TimetrackerApplication</portlet-name>
-    <display-name xml:lang="EN">Time tracker Application</display-name>
+    <display-name xml:lang="EN">Time Tracker</display-name>
     <portlet-class>timetracker.portlet.tracker.TrackerPortlet</portlet-class>
     <init-param>
       <name>juzu.run_mode</name>
@@ -45,13 +20,46 @@
       <short-title>Time tracker</short-title>
       <keywords>Content</keywords>
     </portlet-info>
-    <portlet-preferences>
-      <preference>
-        <name>size</name>
-        <value>128</value>
-        <read-only>false</read-only>
-      </preference>
-    </portlet-preferences>
+  </portlet>
+
+  <portlet>
+    <portlet-name>TimetrackerAdminApplication</portlet-name>
+    <display-name xml:lang="EN">Time Tracker Admin</display-name>
+    <portlet-class>timetracker.portlet.admin.AdminPortlet</portlet-class>
+    <init-param>
+      <name>juzu.run_mode</name>
+      <value>prod</value>
+    </init-param>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
+    <portlet-info>
+      <title>Time tracker Admin</title>
+      <short-title>Time tracker Admin</short-title>
+      <keywords>Content</keywords>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <portlet-name>TimetrackerExportApplication</portlet-name>
+    <display-name xml:lang="EN">Time Tracker Export</display-name>
+    <portlet-class>timetracker.portlet.export.ExportPortlet</portlet-class>
+    <init-param>
+      <name>juzu.run_mode</name>
+      <value>prod</value>
+    </init-param>
+    <!--init-param>
+      <name>juzu.src_path</name>
+      <value>/Users/benjamin/git/time-tracker/src</value>
+    </init-param-->
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
+    <portlet-info>
+      <title>Time Tracker Export</title>
+      <short-title>Time Tracker Export</short-title>
+      <keywords>Content</keywords>
+    </portlet-info>
   </portlet>
 
 </portlet-app>

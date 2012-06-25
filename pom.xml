@@ -92,6 +92,12 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.8</version>
+    </dependency>
+
   </dependencies>
 
   <build>

@@ -7,6 +7,10 @@ a:hover {
   text-decoration: none;
 }
 
+.row-fluid {
+  padding: 0px 0px 10px 0px;
+}
+
 #tt-error-panel {
   color:#B94A48;
   background-color:#F2DEDE;
