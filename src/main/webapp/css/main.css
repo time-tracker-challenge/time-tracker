@@ -3,6 +3,10 @@
   background-color: white;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 #tt-error-panel {
   color:#B94A48;
   background-color:#F2DEDE;
