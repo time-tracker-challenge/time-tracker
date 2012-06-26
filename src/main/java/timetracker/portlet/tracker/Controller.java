@@ -8,6 +8,7 @@ import org.exoplatform.services.organization.User;
 import org.exoplatform.services.organization.UserHandler;
 import timetracker.ChromatticService;
 import timetracker.TrackerService;
+import timetracker.bean.Row;
 import timetracker.model.Task;
 
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ import java.util.*;
 
 /** @author <a href="mailto:benjamin.paillereau@exoplatform.com">Benjamin Paillereau</a> */
 @SessionScoped
-public class Controller
+public class Controller extends juzu.Controller
 {
 
   /** . */
@@ -131,15 +132,28 @@ public class Controller
   }
 
   @Action
-  public void updateData(String from, String data) throws ParseException
+  public void updateData() throws ParseException
   {
-    Calendar cal=Calendar.getInstance();
-    SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
-    Date d1=df.parse(from);
-    cal.setTime(d1);
+    Map<String, String[]> params = actionContext.getParameters();
 
-    trackerService_.updateData(cal, data);
+    if (params.containsKey("from") && params.containsKey("rows"))
+    {
+      Calendar cal=Calendar.getInstance();
+      SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
+      Date d1=df.parse(params.get("from")[0]);
+      cal.setTime(d1);
+      int irows = new Integer(params.get("rows")[0]);
+      List<Row> rows = new LinkedList<Row>();
+      for (int i=0 ; i<irows ; i++)
+      {
+        Row row = new Row();
+        row.setColumns(params.get("column_"+i));
+        row.setHours(params.get("hours_"+i));
+        rows.add(row);
+      }
 
+      trackerService_.updateData(cal, rows);
+    }
   }
 
 }

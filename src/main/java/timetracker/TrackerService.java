@@ -4,12 +4,14 @@ import org.chromattic.api.Chromattic;
 import org.chromattic.api.ChromatticSession;
 import org.chromattic.ext.ntdef.NTFolder;
 import org.exoplatform.portal.webui.util.Util;
+import timetracker.bean.Row;
 import timetracker.model.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 public class TrackerService {
 
@@ -91,7 +93,7 @@ public class TrackerService {
     return null;
   }
 
-  public void updateData(Calendar fromDate, String data)
+  public void updateData(Calendar fromDate, List<Row> rows)
   {
     fromDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -123,12 +125,10 @@ public class TrackerService {
         week.setFirstDay(fromDate.getTime());
 
 
-        String[] rows = data.split(";");
-        for (int ir=0 ; ir<rows.length ; ir++)
+        for (Row row: rows)
         {
-          String[] entries = rows[ir].split("=");
-          String[] columns = entries[0].split("-");
-          String[] hours = entries[1].split("-");
+          String[] columns = row.getColumns();
+          String[] hours = row.getHours();
           String taskName = columns[0]+"-"+columns[1]+"-"+columns[2];
           Task task = session.create(Task.class, taskName);
           task.setParent(week);

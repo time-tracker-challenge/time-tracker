@@ -1,17 +1,19 @@
 <% if (tasks!=null) { %>
-  <% tasks.each { task -> %>
+  <% def it=0;
+      def to = 0;
+    tasks.each { task -> %>
       <tr>
       <% def ic=0;
         task.columns.each { column-> %>
-        <td><input class="tac${ic++} input-medium tacolumns" type="text" data-provide="typeahead" value="${column}"/></td>
+        <td><input name="column_${it}" tabindex="${to}" class="tac${ic++} input-medium tacolumns" type="text" data-provide="typeahead" value="${column}"/></td>
       <% } %>
         <td><a class="btn btn-danger remove-button" href="#" style="float:right"><i class="icon-trash icon-white"></i> </a></td>
         <td class="sep"></td>
-        <td><input class="input-mini tahours tah1" type="text" value="${task.hours[0]}"/></td>
-        <td><input class="input-mini tahours tah2" type="text" value="${task.hours[1]}"/></td>
-        <td><input class="input-mini tahours tah3" type="text" value="${task.hours[2]}"/></td>
-        <td><input class="input-mini tahours tah4" type="text" value="${task.hours[3]}"/></td>
-        <td><input class="input-mini tahours tah5" type="text" value="${task.hours[4]}"/></td>
+      <% for (int ih=0 ; ih<5 ; ih++) { %>
+        <td><input name="hours_${it}" tabindex="${to}" class="input-mini tahours tah${ih+1}" type="text" value="${task.hours[ih]}"/></td>
+      <% }
+         it++;
+       %>
       </tr>
   <% } %>
 <% } else { %>

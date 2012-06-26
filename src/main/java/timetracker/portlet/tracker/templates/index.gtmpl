@@ -1,4 +1,5 @@
 <div class="container" id="time-tracker">
+<form id="tracker-form">
 
   <table class="table table-striped table-condensed" style="margin-bottom:5px">
     <thead>
@@ -55,7 +56,6 @@
         <td><span class="badge tat5 badge-warning">0</span></td>
       </tr>
     </tfoot>
-    <form id="tracker-form">
     <tbody id="tasks-body">
       <tr>
       <% for (int ic=0 ; ic<columns.size() ; ic++ ) { %>
@@ -70,10 +70,10 @@
         <td><input class="input-mini" type="text" value="0"/></td>
       </tr>
     </tbody>
-    </form>
   </table>
 
 </div>
+</form>
 
 
 <script id="tracker-empty-row" type="text">
@@ -218,18 +218,15 @@ $(document).ready(function(){
 
   $('#save-button').on('click', function() {
     if (!$(this).hasClass('disabled')) {
-
-      var rows = "";
       var ok = 1;
-
+      var rows = 0;
       $('#tasks-body').find('tr').each(function() {
-        var name="", hours="";
+        rows++;
         $(this).find('.tacolumns').each(function() {
           var val = $(this).val();
           if (val==="" || val === undefined) {
             ok = 0;
           }
-          name += $(this).val() + "-";
         });
 
         $(this).find('.tahours').each(function() {
@@ -237,18 +234,15 @@ $(document).ready(function(){
           if (isNaN(val) || val==="" || val === undefined) {
             ok = 0;
           }
-          hours += $(this).val() + "-";
         });
-
-        console.log("FORM :: "+name+" = "+hours);
-        rows += name+"="+hours+";";
-
       });
 
       if (ok===1) {
         $('#save-button').addClass('disabled');
-
-        $.post(jzTimeTrackerUpdateData, {"data": rows, "from": ttmonday}, function() {
+        var args = $("#tracker-form").serialize();
+        args+="&from="+ttmonday;
+        args+="&rows="+rows;
+        $.post(jzTimeTrackerUpdateData, args, function() {
           console.log("data posted");
           $("#tt-save-panel").css("display", "none");
           $("#tt-success-panel").css("display", "inline-block");
