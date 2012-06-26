@@ -1,6 +1,6 @@
 package timetracker.bean;
 
-public class Row {
+public class TaskRow {
   String[] columns;
   String [] hours;
 

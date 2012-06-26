@@ -4,14 +4,14 @@ import org.chromattic.api.Chromattic;
 import org.chromattic.api.ChromatticSession;
 import org.chromattic.ext.ntdef.NTFolder;
 import org.exoplatform.portal.webui.util.Util;
-import timetracker.bean.Row;
+import timetracker.bean.ColumnRow;
+import timetracker.bean.TaskRow;
 import timetracker.model.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 public class TrackerService {
 
@@ -93,7 +93,7 @@ public class TrackerService {
     return null;
   }
 
-  public void updateData(Calendar fromDate, List<Row> rows)
+  public void updateData(Calendar fromDate, List<TaskRow> rows)
   {
     fromDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -125,7 +125,7 @@ public class TrackerService {
         week.setFirstDay(fromDate.getTime());
 
 
-        for (Row row: rows)
+        for (TaskRow row: rows)
         {
           String[] columns = row.getColumns();
           String[] hours = row.getHours();
@@ -147,7 +147,7 @@ public class TrackerService {
     }
   }
 
-  public void updateColumns(String data)
+  public void updateColumns(List<ColumnRow> rows)
   {
     ChromatticSession session = chromattic_.openSession();
     try
@@ -157,17 +157,12 @@ public class TrackerService {
         column.setParent(null);
       }
 
-      String[] rows = data.split(";");
-      for (int ir=0 ; ir<rows.length ; ir++)
+      for (ColumnRow row: rows)
       {
-        String[] entries = rows[ir].split("=");
-        String name = entries[0];
-        String strim =  entries[1].replaceAll(" ", "");
-        String[] values = strim.split(",");
-        Column column = session.create(Column.class, name);
+        Column column = session.create(Column.class, row.getTitle());
         column.setParent(columns);
-        column.setTitle(name);
-        column.setValues(values);
+        column.setTitle(row.getTitle());
+        column.setValues(row.getValues());
       }
 
       session.save();

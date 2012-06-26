@@ -8,7 +8,7 @@ import org.exoplatform.services.organization.User;
 import org.exoplatform.services.organization.UserHandler;
 import timetracker.ChromatticService;
 import timetracker.TrackerService;
-import timetracker.bean.Row;
+import timetracker.bean.TaskRow;
 import timetracker.model.Task;
 
 import javax.inject.Inject;
@@ -124,11 +124,8 @@ public class Controller extends juzu.Controller
       cal.add(Calendar.DATE, 7*di);
     }
     List<Task> tasks = trackerService_.getTasks(cal);
-    Map<String, Object> parameters = new HashMap<String, Object>();
-    parameters.put("tasks", tasks);
-    parameters.put("nbColumns", trackerService_.getColumns().size());
 
-    tasksTemplate.render(parameters);
+    tasksTemplate.with().set("tasks", tasks).set("nbColumns", trackerService_.getColumns().size()).render();
   }
 
   @Action
@@ -143,10 +140,10 @@ public class Controller extends juzu.Controller
       Date d1=df.parse(params.get("from")[0]);
       cal.setTime(d1);
       int irows = new Integer(params.get("rows")[0]);
-      List<Row> rows = new LinkedList<Row>();
+      List<TaskRow> rows = new LinkedList<TaskRow>();
       for (int i=0 ; i<irows ; i++)
       {
-        Row row = new Row();
+        TaskRow row = new TaskRow();
         row.setColumns(params.get("column_"+i));
         row.setHours(params.get("hours_"+i));
         rows.add(row);

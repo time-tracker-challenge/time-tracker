@@ -5,23 +5,20 @@ import juzu.Path;
 import juzu.SessionScoped;
 import juzu.View;
 import juzu.template.Template;
-import org.chromattic.api.Chromattic;
 import timetracker.ChromatticService;
 import timetracker.TrackerService;
+import timetracker.bean.ColumnRow;
 
 import javax.inject.Inject;
-import javax.portlet.PortletPreferences;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /** @author <a href="mailto:benjamin.paillereau@exoplatform.com">Benjamin Paillereau</a> */
 @SessionScoped
-public class Controller
+public class Controller extends juzu.Controller
 {
 
   /** . */
@@ -41,17 +38,28 @@ public class Controller
     @View
   public void index() throws IOException
   {
-    Map<String, Object> parameters = new HashMap<String, Object>();
-
-    parameters.put("columns", trackerService_.getColumns());
-
-    indexTemplate.render(parameters);
+    indexTemplate.with().set("columns", trackerService_.getColumns()).render();
   }
 
   @Action
-  public void updateData(String data) throws ParseException
+  public void updateData() throws ParseException
   {
-    trackerService_.updateColumns(data);
+    Map<String, String[]> params = actionContext.getParameters();
+    if (params.containsKey("rows"))
+    {
+      List<ColumnRow> rows = new LinkedList<ColumnRow>();
+      int irows = new Integer(params.get("rows")[0]);
+      for (int i=0 ; i<irows ; i++)
+      {
+        ColumnRow row = new ColumnRow();
+        row.setTitle(params.get("title_"+i)[0]);
+        String[] values = params.get("values_"+i)[0].replaceAll(" ", "").split(",");
+        row.setValues(values);
+        rows.add(row);
+      }
+
+      trackerService_.updateColumns(rows);
+    }
   }
 
 }

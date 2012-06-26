@@ -1,5 +1,6 @@
 <div class="container" id="time-tracker-admin">
 
+  <form id="admin-tracker-form">
   <table class="table table-striped table-condensed" style="margin-bottom:5px">
     <thead>
     <tr>
@@ -27,22 +28,23 @@
         </td>
       </tr>
     </tfoot>
-    <form id="admin-tracker-form">
     <tbody id="admin-columns-body">
-    <% columns.each { column -> %>
+    <% def icol = 0;
+      columns.each { column -> %>
       <tr>
         <td>
-          <h4><input class="input-small col-name" type="text" value="${column.title}"/></h4>
+          <h4><input name="title_${icol}" class="input-small col-name" type="text" value="${column.title}"/></h4>
         </td>
         <td>
-          <textarea class="input-xlarge col-value" rows="3"><% for (int ic=0 ; ic<column.values.length ; ic++ ) {
+          <textarea name="values_${icol}" class="input-xlarge col-value" rows="3"><% for (int ic=0 ; ic<column.values.length ; ic++ ) {
             if (ic>0) { %> , <% } %>${column.values[ic]}<% } %></textarea>
           </td>
       </tr>
-    <% } %>
+    <% icol++
+      } %>
     </tbody>
-    </form>
   </table>
+  </form>
 
 </div>
 
@@ -55,17 +57,16 @@
   $('#admin-save-button').on('click', function() {
     if (!$(this).hasClass('disabled')) {
 
-      var rows = "";
+      var rows = 0;
       var ok = 1;
 
       $('#admin-columns-body').find('tr').each(function() {
-        var name="", values="";
+        rows++;
         $(this).find('.col-name').each(function() {
           var val = $(this).val();
           if (val==="" || val === undefined) {
             ok = 0;
           }
-          name = $(this).val();
         });
 
         $(this).find('.col-value').each(function() {
@@ -73,15 +74,13 @@
           if (val==="" || val === undefined) {
             ok = 0;
           }
-          values = $(this).val();
         });
-
-        console.log("FORM :: "+name+" = "+values);
-        rows += name+"="+values+";";
 
       });
       if (ok===1) {
-        $.post(jzTimeTrackerAdminUpdateData, {"data": rows}, function() {
+        var data = $("#admin-tracker-form").serialize();
+        data += "&rows="+rows;
+        $.post(jzTimeTrackerAdminUpdateData, data, function() {
           console.log("data posted");
           $("#tt-admin-save-panel").css("display", "none");
           $("#tt-admin-success-panel").css("display", "inline-block");
